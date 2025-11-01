@@ -1,201 +1,166 @@
-# Sign_Language_Detection_using_Machine_learning
+<h1 align="center"> Sign Language Detection using Machine Learning</h1>
 
-	**Project Overview**
+<p align="center">
+  <b>Real-time ASL gesture recognition using MediaPipe and LSTM</b><br>
+  Recognizes: <b>Hello</b>, <b>Thanks</b>, and <b>I Love You</b>
+</p>
 
-This project demonstrates a real-time Sign Language Detection System using MediaPipe for keypoint detection and a Long Short-Term Memory (LSTM) neural network for classification.
+<hr>
 
-The system captures body, face, and hand landmarks from a webcam and predicts the performed sign gesture.
+<h2>➤ Project Overview</h2>
+<p>
+This project demonstrates a <b>real-time Sign Language Detection System</b> using <b>MediaPipe</b> for keypoint detection and an <b>LSTM</b> neural network for classification.<br>
+It captures <b>body, face, and hand landmarks</b> from a webcam and predicts the performed sign gesture.
+</p>
 
-It currently recognizes three American Sign Language (ASL) gestures:
+<h2>➤ Features</h2>
+<ul>
+  <li> Real-time sign language recognition from webcam input</li>
+  <li> Uses MediaPipe Holistic for hand, face, and pose tracking</li>
+  <li> Trains an LSTM-based neural network on gesture sequences</li>
+  <li> Evaluates performance using accuracy and confusion matrix</li>
+  <li> Saves the trained model for reuse</li>
+  <li> Runs efficiently on CPU</li>
+</ul>
 
- Hello, Thanks, and I Love You
+<hr>
 
-________________________________________
+<h2>➤ Tech Stack</h2>
+<table>
+<tr><th>Component</th><th>Description</th></tr>
+<tr><td><b>Language</b></td><td>Python 3.x</td></tr>
+<tr><td><b>Frameworks</b></td><td>TensorFlow / Keras</td></tr>
+<tr><td><b>Computer Vision</b></td><td>OpenCV, MediaPipe</td></tr>
+<tr><td><b>Data Handling</b></td><td>NumPy, scikit-learn, Matplotlib</td></tr>
+<tr><td><b>IDE / Platform</b></td><td>Jupyter Notebook</td></tr>
+</table>
 
-	**Features**
+<hr>
 
-•	 Real-time sign language recognition from webcam input
-
-•	 Uses MediaPipe Holistic for hand, face, and pose tracking
-
-•	 Trains an LSTM-based neural network on gesture sequences
-
-•	 Evaluates performance using accuracy and confusion matrix
-
-•	 Saves the trained model for reuse
-
-•	 Runs efficiently on CPU
-
-________________________________________
-
-	**Tech Stack**
-
-Component	&nbsp;&nbsp;&nbsp;&nbsp; Description
-
-Language &nbsp;&nbsp;&nbsp;&nbsp;	Python 3.x
-
-Frameworks &nbsp;&nbsp;&nbsp;&nbsp;	TensorFlow / Keras
-
-Computer Vision	&nbsp;&nbsp;&nbsp;&nbsp;OpenCV, MediaPipe
-
-Data Handling	&nbsp;&nbsp;&nbsp;&nbsp; NumPy, scikit-learn, Matplotlib
-
-IDE/Platform &nbsp;&nbsp;&nbsp;&nbsp;	Jupyter Notebook
-
-________________________________________
-
-	**Project Structure**
-
+<h2>➤ Project Structure</h2>
+<pre>
 Sign_Language_Detection_using_Machine_learning/
-
-│
-
-|── sign.ipynb            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   # Main Jupyter Notebook
-
-|── MP_Data/         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;        # Directory for keypoint sequences
-
-│   |── hello/
-
-│   |── thanks/
-
+├── sign.ipynb               # Main Jupyter Notebook
+├── MP_Data/                 # Directory for keypoint sequences
+│   ├── hello/
+│   ├── thanks/
 │   └── Iloveyou/
- 
+├── model.h5                 # Saved trained LSTM model (optional)
+├── README.md                # Project documentation
+└── requirements.txt         # Dependencies list (optional)
+</pre>
 
-________________________________________
+<hr>
 
-	**Installation**
+<h2>➤ Installation</h2>
 
+<ol>
+<li><b>Clone the Repository</b>
+<pre>
+git clone https://github.com/Ravi6888/Sign_Language_Detection_using_Machine_learning.git
+cd Sign_Language_Detection_using_Machine_learning
+</pre></li>
 
+<li><b>Install Dependencies</b>
+<pre>
+pip install opencv-python mediapipe numpy tensorflow matplotlib scikit-learn
+</pre></li>
 
-1.	Clone the Repository 
+<li><b>Launch the Notebook</b>
+<pre>
+jupyter notebook sign.ipynb
+</pre></li>
+</ol>
 
-&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp; git clone https://github.com/Ravi6888/Sign_Language_Detection_using_Machine_learning.git 
+<hr>
 
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; cd Sign_Language_Detection_using_Machine_learning
+<h2>➤ Dataset & Keypoint Collection</h2>
+<ul>
+  <li>Data is automatically collected using your webcam.</li>
+  <li>Each gesture (class) consists of 30 sequences, each containing 30 frames.</li>
+  <li>Frames are stored as <code>.npy</code> files with MediaPipe keypoints (pose + face + hands).</li>
+</ul>
 
-2.	 Install Dependencies 
-
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; pip install opencv-python mediapipe numpy tensorflow matplotlib scikit-learn
-
-3.	 Launch the Notebook 
-
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; jupyter notebook sign.ipynb
-
-________________________________________
-
-	**Dataset & Keypoint Collection**
-
-•	Data is automatically collected using your webcam.
-
-•	Each gesture (class) consists of 30 sequences, and each sequence contains 30 frames.
-
-•	The frames are stored in the following structure:
-
+<pre>
 MP_Data/
+├── hello/
+│   ├── 0/ → frame_1.npy, frame_2.npy, ...
+│   ├── 1/
+│   └── ...
+├── thanks/
+└── Iloveyou/
+</pre>
 
- |── hello/
- 
- │   |── 0/ → frame_1.npy, frame_2.npy, ...
- 
- │   |── 1/
- 
- │   └── ...
- 
- |── thanks/
- 
- └── Iloveyou/
+<hr>
 
-•Each .npy file stores the MediaPipe keypoints (pose + face + hands).
-
-________________________________________
-
-	**Model Architecture**
-
-The project uses a Sequential LSTM Network trained on keypoint sequences.
-
+<h2>➤ Model Architecture</h2>
+<pre>
 Model: Sequential
-
 ──────────────────────────────────────
-
 1. LSTM Layer (64 units)
-
 2. LSTM Layer (128 units)
-
 3. Dense Layer (64 units, ReLU)
-
 4. Dense Layer (32 units, ReLU)
-
 5. Output Layer (Softmax, 3 classes)
-
 ──────────────────────────────────────
+Optimizer: Adam
+Loss Function: Categorical Crossentropy
+Metrics: Accuracy
+</pre>
 
-•	Optimizer: Adam
+<hr>
 
-•	Loss Function: Categorical Crossentropy
+<h2>➤ Model Training</h2>
+<ul>
+  <li>Trains on labeled keypoint sequences from webcam input.</li>
+  <li>Uses <code>train_test_split</code> for validation.</li>
+  <li>Monitored with TensorBoard for training visualization.</li>
+  <li>Achieves high accuracy for three defined gestures.</li>
+</ul>
 
-•	Metrics: Accuracy
+<hr>
 
-________________________________________
+<h2>➤ Evaluation</h2>
+<ul>
+  <li>Evaluated with confusion matrix and accuracy score (scikit-learn).</li>
+  <li>Performs reliable real-time predictions for the gestures.</li>
+</ul>
 
-	**Model Training**
+<hr>
 
-•	Trains the model using the labeled sequences generated from webcam input.
+<h2>➤ Real-Time Testing</h2>
+<p>
+Run the final cell in the notebook for live testing:<br>
+• Opens a webcam window<br>
+• Tracks hand and pose landmarks in real-time<br>
+• Displays the predicted sign on the video feed<br>
+Press <b>q</b> to quit the webcam stream.
+</p>
 
-•	Uses train_test_split for validation.
-
-•	Employs TensorBoard for visualizing training progress.
-
-•	Achieves high accuracy for the three gestures.
-
-________________________________________
-
-	**Evaluation**
-
-•	Evaluated using:
-
-•	Confusion Matrix
-
-•	Accuracy Score from scikit-learn
-
-•	The model achieves reliable real-time predictions for the defined gestures.
-
-________________________________________
-
-	**Real-Time Testing**
-
-Run the final cell in the notebook for live testing:
-
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; •	Opens a webcam window
-
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; •	Tracks hand and pose landmarks in real-time
-
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; •	Displays the predicted sign on the video feed
-
-Press q to quit the webcam stream.
-
-________________________________________
-
-	**Example Output**
-
+<pre>
 [INFO] Starting webcam...
-
 Detected: Hello
-
 Detected: Thanks
+Detected: I Love You
+</pre>
 
-Detected: I Love You ️
+<hr>
 
-________________________________________
+<h2>➤ Possible Enhancements</h2>
+<ul>
+  <li>Add more gestures and languages (Indian / ASL / BSL)</li>
+  <li>Include full-body pose cues for context-rich gestures</li>
+  <li>Add text-to-speech conversion for recognized signs</li>
+  <li>Deploy using Streamlit or Flask for a web interface</li>
+  <li>Convert model to TensorFlow Lite for mobile apps</li>
+</ul>
 
-	**Possible Enhancements**
+<hr>
 
-•	 Add more gestures and languages (Indian / ASL / BSL).
 
-•	 Include full-body pose cues for context-rich gestures.
 
-•	 Add text-to-speech conversion of recognized signs.
+<hr>
 
-•	 Deploy using Streamlit or Flask for a web interface.
-
-•	 Convert model to TensorFlow Lite for mobile apps.
-
+<p align="center">
+⭐ <i>If you found this project useful, consider giving it a star!</i> ⭐
+</p>
